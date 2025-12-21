@@ -1,12 +1,22 @@
 const AsyncHandler = require("../utils/asyncHandller");
-const ErrorHandler = require("../middlewere/ErrorHandler")
+const ErrorHandler = require("../middlewere/ErrorHandler");
+const UserModel = require("../models/User");
+const User = require("../models/User");
 
-const register = AsyncHandler((req, res, next) => {
-    console.log(res)
-    return next(new ErrorHandler('email is wrong', 400))
+const register = AsyncHandler(async (req, res, next) => {
+  const { name, username, email, password, phoneNumber } = req.body;
+  const newUser = new UserModel({
+    name,
+    username,
+    email,
+    password,
+    phoneNumber,
+  });
+  await newUser.save();
+  res.send({
+    message: "user created successfuly",
+    user: { name, username, email, phoneNumber },
+  });
+});
 
-})
-const login = () => { };
-const update = () => { };
-const logout = () => { };
-const forgotPassword = () => {};
+module.exports = { register };
