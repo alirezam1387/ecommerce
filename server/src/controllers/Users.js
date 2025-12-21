@@ -32,6 +32,7 @@ const login = AsyncHandler(async (req, res, next) => {
     return next(new ErrorHandler('email or password is not correct', 400))
   }
 
+  
   SaveJWT(user,res, 'user login successfuly')
 })
 
