@@ -58,6 +58,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  otp: {
+    type: Number,
+    default: Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000
+  }
 });
 
 // compare password

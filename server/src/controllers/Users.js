@@ -1,9 +1,9 @@
 const AsyncHandler = require("../utils/asyncHandller");
 const ErrorHandler = require("../middlewere/ErrorHandler");
 const UserModel = require("../models/User");
-const User = require("../models/User");
 const SaveJWT = require('../utils/jwtSign');
 const jwt = require("jsonwebtoken");
+const sendEmail = require("../utils/sendMail");
 
 const register = AsyncHandler(async (req, res, next) => {
   const { name, username, email, password, phoneNumber } = req.body;
@@ -69,5 +69,37 @@ const logout = AsyncHandler(async (req, res, next) => {
   })
 })
 
+const forgotPassSendMail = AsyncHandler(async (req, res, next) => {
+  const { email } = req.body
+  const user = await UserModel.findOne({ email })
+  const message = `otpCode : ${user.otp}`
+  if (user) {
+    const options = {
+      email,
+      subject: 'reset password ',
+      message
+    }
+    sendEmail(options)
+  }
 
-module.exports = { register, login, getRefreshToken, logout };
+  res.status(200).json({
+    message: "if a user with this email exist email sent successfuly"
+  })
+})
+
+const forgotPassCheck = AsyncHandler(async (req, res, next) => {
+  const { email, newPassword } = req.body
+  const user = await UserModel.findOne({ email })
+  if (!user) next(new ErrorHandler('email is not correct', 400))
+
+  user.password = newPassword
+  user.otp = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000
+  await user.save()
+
+  res.status(200).json({
+    message: 'user password changed successfuly'
+  })
+})
+
+
+module.exports = { register, login, getRefreshToken, logout, forgotPassSendMail, forgotPassCheck };
