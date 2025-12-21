@@ -1,6 +1,5 @@
 const SaveJWT = async (user, res, message) => {
     const { refreshToken, accessToken } = await user.SignJWT()
-    console.log(refreshToken, accessToken)
 
     const cookieOptions = {
         httpOnly: true,

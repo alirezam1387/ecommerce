@@ -60,9 +60,11 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// compate password
+// compare password
 userSchema.methods.ComparePass = async function (password) {
-  return await bcrypt.compare(password, this.password);
+  const valid = await bcrypt.compare(password, this.password)
+  console.log('model: ',valid)
+  return valid
 };
 
 // password hashing

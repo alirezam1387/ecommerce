@@ -23,11 +23,14 @@ const login = AsyncHandler(async (req, res, next) => {
 
   if (!email || !password) next(new ErrorHandler('email or password ', 400))
 
-  let user = await UserModel.findOne({ email })
+  let user = await UserModel.findOne({ email }).select('+password')
   if (!user) next(new ErrorHandler('email or password is not correct', 400))
 
-  const isValid = user.ComparePass(password)
-  if (!isValid) next(new ErrorHandler('email or password is not correct', 400))
+  const isValid = await user.ComparePass(password)
+  console.log('contoler: ',isValid)
+  if (!isValid) {
+    return next(new ErrorHandler('email or password is not correct', 400))
+  }
 
   SaveJWT(user,res, 'user login successfuly')
 })
