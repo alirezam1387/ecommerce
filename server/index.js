@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const { mongoDB } = require("./src/database/db");
+
+const MongoDBConnect = require("./src/database/MongoDB");
 
 require("dotenv").config({
   quiet: true,
@@ -20,5 +21,5 @@ const PORT = process.env.PORT || 5050; // default port for server is 5050
 
 server.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
-  mongoDB();
-});
+  MongoDBConnect()
+})
