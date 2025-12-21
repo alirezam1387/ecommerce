@@ -2,6 +2,7 @@ const AsyncHandler = require("../utils/asyncHandller");
 const ErrorHandler = require("../middlewere/ErrorHandler");
 const UserModel = require("../models/User");
 const User = require("../models/User");
+const SaveJWT = require('../utils/jwtSign')
 
 const register = AsyncHandler(async (req, res, next) => {
   const { name, username, email, password, phoneNumber } = req.body;
@@ -11,12 +12,24 @@ const register = AsyncHandler(async (req, res, next) => {
     email,
     password,
     phoneNumber,
-  });
+  })
   await newUser.save();
-  res.send({
-    message: "user created successfuly",
-    user: { name, username, email, phoneNumber },
-  });
+
+  SaveJWT(newUser, res, 'user created successfuly')
 });
 
-module.exports = { register };
+const login = AsyncHandler(async (req, res, next) => {
+  const { email, password } = req.body
+
+  if (!email || !password) next(new ErrorHandler('email or password ', 400))
+
+  let user = await UserModel.findOne({ email })
+  if (!user) next(new ErrorHandler('email or password is not correct', 400))
+
+  const isValid = user.ComparePass(password)
+  if (!isValid) next(new ErrorHandler('email or password is not correct', 400))
+
+  SaveJWT(user,res, 'user login successfuly')
+})
+
+module.exports = { register, login };
