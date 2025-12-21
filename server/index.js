@@ -2,12 +2,16 @@ const express = require("express");
 const cors = require("cors");
 
 const MongoDBConnect = require("./src/database/MongoDB");
+const ErrorMidlleWere = require("./src/utils/error");
 
 require("dotenv").config({
   quiet: true,
 });
 
 const server = express();
+
+// errors
+server.use(ErrorMidlleWere)
 
 server.use(express.json());
 server.use(
