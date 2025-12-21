@@ -38,8 +38,9 @@ const productSchema = new mongoose.Schema({
             type: String, 
         }
     ],
-    material: {
-        type: String, 
+    OffNum: {
+        type: Number,
+        default: undefined
     },
     likedUsers: [
         {
