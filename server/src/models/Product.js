@@ -1,71 +1,71 @@
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-        trim: true,
+  title: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  mainPhoto: {
+    type: String,
+    default: "no-photo.jpg",
+    required: true,
+  },
+  gallery: [
+    {
+      type: String,
     },
-    description: {
-        type: String,
-        required: true,
+  ],
+  count: {
+    type: Number,
+    default: 0,
+  },
+  colors: [
+    {
+      type: String,
     },
-    price: {
-        type: Number,
-        required: true,
+  ],
+  size: [
+    {
+      type: String,
     },
-    mainPhoto: {
-        type: String,
-        default: 'no-photo.jpg',
-        required: true
+  ],
+  OffNum: {
+    type: Number,
+    default: undefined,
+  },
+  likedUsers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
-    gallery: [
-        {
-            type: String, 
-        },
-    ],
-    count: {
-        type: Number,
-        default: 0,
-    },
-    colors: [
-        {
-            type: String, 
-        }
-    ],
-    size: [
-        {
-            type: String, 
-        }
-    ],
-    OffNum: {
-        type: Number,
-        default: undefined
-    },
-    likedUsers: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-        },
-    ],
-    catRef: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-        required: true,
-    },
-    sellCount: {
-        type: Number,
-        default: 0,
-    },
-    links: {
-        instagram: { type: String, default: "" },
-        telegram: { type: String, default: "" },
-        whatsapp: { type: String, default: "" },
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
+  ],
+  catRef: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
+  },
+  sellCount: {
+    type: Number,
+    default: 0,
+  },
+  links: {
+    instagram: { type: String, default: "" },
+    telegram: { type: String, default: "" },
+    whatsapp: { type: String, default: "" },
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Product = mongoose.model("Product", productSchema);

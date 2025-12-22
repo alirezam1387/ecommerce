@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -60,14 +60,20 @@ const userSchema = new mongoose.Schema({
   },
   otp: {
     type: Number,
-    default: Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000
-  }
+    default: Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000,
+  },
 });
 
 // compare password
 userSchema.methods.ComparePass = async function (password) {
+<<<<<<< HEAD
   const valid = await bcrypt.compare(password, this.password)
   return valid
+=======
+  const valid = await bcrypt.compare(password, this.password);
+  console.log("model: ", valid);
+  return valid;
+>>>>>>> fa12ec97ed01b456d6aa869f9e330a7ff0516a40
 };
 
 // password hashing
@@ -77,19 +83,18 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-
 // sign jwt
 userSchema.methods.SignJWT = async function () {
   // access token
-  const accessToken = jwt.sign({_id: this.id}, process.env.JWT_SECURE_CODE, {
-    expiresIn: '15m'
-  })
+  const accessToken = jwt.sign({ _id: this.id }, process.env.JWT_SECURE_CODE, {
+    expiresIn: "15m",
+  });
 
   // refresh token
-  const refreshToken = jwt.sign({_id: this.id}, process.env.JWT_SECURE_CODE, {
-    expiresIn: '7d'
-  })
-  return {accessToken, refreshToken}
-}
+  const refreshToken = jwt.sign({ _id: this.id }, process.env.JWT_SECURE_CODE, {
+    expiresIn: "7d",
+  });
+  return { accessToken, refreshToken };
+};
 
 module.exports = mongoose.model("User", userSchema);
