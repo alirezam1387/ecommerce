@@ -67,7 +67,7 @@ const userSchema = new mongoose.Schema({
 // compare password
 userSchema.methods.ComparePass = async function (password) {
   const valid = await bcrypt.compare(password, this.password)
-  console.log('model: ',valid)
+  console.log('model: ', valid)
   return valid
 };
 
@@ -82,15 +82,15 @@ userSchema.pre("save", async function (next) {
 // sign jwt
 userSchema.methods.SignJWT = async function () {
   // access token
-  const accessToken = jwt.sign({_id: this.id}, process.env.JWT_SECURE_CODE, {
+  const accessToken = jwt.sign({ _id: this.id }, process.env.JWT_SECURE_CODE, {
     expiresIn: '15m'
   })
 
   // refresh token
-  const refreshToken = jwt.sign({_id: this.id}, process.env.JWT_SECURE_CODE, {
+  const refreshToken = jwt.sign({ _id: this.id }, process.env.JWT_SECURE_CODE, {
     expiresIn: '7d'
   })
-  return {accessToken, refreshToken}
+  return { accessToken, refreshToken }
 }
 
 module.exports = mongoose.model("User", userSchema);
