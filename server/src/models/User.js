@@ -66,15 +66,9 @@ const userSchema = new mongoose.Schema({
 
 // compare password
 userSchema.methods.ComparePass = async function (password) {
-<<<<<<< HEAD
   const valid = await bcrypt.compare(password, this.password)
   return valid
-=======
-  const valid = await bcrypt.compare(password, this.password);
-  console.log("model: ", valid);
-  return valid;
->>>>>>> fa12ec97ed01b456d6aa869f9e330a7ff0516a40
-};
+}
 
 // password hashing
 userSchema.pre("save", async function (next) {

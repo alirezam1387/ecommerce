@@ -88,18 +88,12 @@ const forgotPassSendMail = AsyncHandler(async (req, res, next) => {
 });
 
 const forgotPassCheck = AsyncHandler(async (req, res, next) => {
-<<<<<<< HEAD
   const { email, newPassword, otpCode } = req.body
   const user = await UserModel.findOne({ email })
   if (!user) next(new ErrorHandler('email is not correct', 400))
   
   // check otp code
   if (Number(otpCode) !== Number(user.otp)) return next(new ErrorHandler('otp code is wrong', 400))
-=======
-  const { email, newPassword } = req.body;
-  const user = await UserModel.findOne({ email });
-  if (!user) next(new ErrorHandler("email is not correct", 400));
->>>>>>> fa12ec97ed01b456d6aa869f9e330a7ff0516a40
 
   user.password = newPassword;
   user.otp = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
