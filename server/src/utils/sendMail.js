@@ -6,8 +6,8 @@ const sendEmail = async (options) => {
     service: "gmail",
     auth: {
       user: process.env.EMAIL,
-      pass: process.env.PASSWORD
-    }
+      pass: process.env.PASSWORD,
+    },
   });
 
   // Define email options
@@ -25,6 +25,6 @@ const sendEmail = async (options) => {
   } catch (error) {
     console.error("Error sending email:", error);
   }
-}
+};
 
-module.exports = sendEmail
+module.exports = sendEmail;
