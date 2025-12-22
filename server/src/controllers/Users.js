@@ -28,7 +28,6 @@ const login = AsyncHandler(async (req, res, next) => {
   if (!user) next(new ErrorHandler('email or password is not correct', 400))
 
   const isValid = await user.ComparePass(password)
-  console.log('contoler: ', isValid)
   if (!isValid) {
     return next(new ErrorHandler('email or password is not correct', 400))
   }
@@ -88,9 +87,12 @@ const forgotPassSendMail = AsyncHandler(async (req, res, next) => {
 })
 
 const forgotPassCheck = AsyncHandler(async (req, res, next) => {
-  const { email, newPassword } = req.body
+  const { email, newPassword, otpCode } = req.body
   const user = await UserModel.findOne({ email })
   if (!user) next(new ErrorHandler('email is not correct', 400))
+  
+  // check otp code
+  if (Number(otpCode) !== Number(user.otp)) return next(new ErrorHandler('otp code is wrong', 400))
 
   user.password = newPassword
   user.otp = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000
