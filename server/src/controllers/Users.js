@@ -104,6 +104,12 @@ const forgotPassCheck = AsyncHandler(async (req, res, next) => {
   });
 });
 
+const getMe = AsyncHandler(async function GetMe(req, res) {
+  res.status(200).json({
+    user: req.user
+  })
+})
+
 module.exports = {
   register,
   login,
@@ -111,4 +117,5 @@ module.exports = {
   logout,
   forgotPassSendMail,
   forgotPassCheck,
+  getMe
 };
