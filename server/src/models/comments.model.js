@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const commentSchema = new mongoose.Schema({
   productRef: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
+    ref: 'Product',
     required: true,
   },
   userRef: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   title: {
@@ -23,20 +23,20 @@ const commentSchema = new mongoose.Schema({
   liked: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
   ],
   parentComment: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Comment",
+    ref: 'Comment',
     default: null,
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-});
+})
 
-const Comment = mongoose.model("Comment", commentSchema);
+const Comment = mongoose.model('Comment', commentSchema)
 
-module.exports = Comment;
+module.exports = Comment
