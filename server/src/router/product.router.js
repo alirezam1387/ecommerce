@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { addProduct } = require('../controllers/Products.js')
+const { addProduct } = require('../controllers/products.controller.js')
 
 router.post('/add_product', addProduct)
 
