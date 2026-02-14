@@ -11,9 +11,9 @@ const {
 
 const { isLogin } = require('../middlewere/PrivateRoutes')
 
-router.post('/create_user', register)
+router.post('/register', register)
 router.post('/login', login)
-router.get('/get_access_token', getRefreshToken)
+router.get('/get_acceses_token', getRefreshToken)
 router.delete('/logout', logout)
 router.post('/sendMail', forgotPassSendMail)
 router.post('/forgot_pass', forgotPassCheck)
