@@ -5,6 +5,10 @@ const MongoDBConnect = require('./src/database/MongoDB')
 const ErrorMidlleWere = require('./src/utils/error')
 const cookieParser = require('cookie-parser')
 const productRouter = require('./src/router/product.routes')
+
+// const multer = require('multer');
+// const path = require('path');
+
 require('dotenv').config({
   quiet: true,
 })
