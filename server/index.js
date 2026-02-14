@@ -19,11 +19,12 @@ const server = express()
 server.use(cookieParser())
 
 server.use(cors())
-server.use(express.json());
+server.use(express.json({ limit: '100mb' }))
+server.use(express.urlencoded({ extended: true }))
 
 // server router setup
 server.use('/api/users', userRouter)
-server.use('apt/products', productRouter)
+server.use('/api/products', productRouter)
 server.use(ErrorMidlleWere)
 
 const PORT = process.env.PORT || 5050 // default port for server is 5050
