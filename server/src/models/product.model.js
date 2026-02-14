@@ -42,17 +42,17 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: undefined,
   },
-  likedUsers: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
-  catRef: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
-    required: true,
-  },
+  // likedUsers: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "User",
+  //   },
+  // ],
+  // catRef: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "Category",
+  //   required: true,
+  // },
   sellCount: {
     type: Number,
     default: 0,
