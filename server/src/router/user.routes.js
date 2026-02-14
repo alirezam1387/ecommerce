@@ -7,6 +7,7 @@ const {
   logout,
   forgotPassSendMail,
   forgotPassCheck,
+  getMe
 } = require('../controllers/users.controller.js')
 
 const { isLogin } = require('../middlewere/PrivateRoutes')
@@ -17,5 +18,6 @@ router.get('/get_access_token', getRefreshToken)
 router.delete('/logout', logout)
 router.post('/sendMail', forgotPassSendMail)
 router.post('/forgot_pass', forgotPassCheck)
+router.get('/me', isLogin, getMe)
 
 module.exports = router

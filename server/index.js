@@ -14,8 +14,8 @@ const server = express()
 // cookies
 server.use(cookieParser())
 
-server.use(express.json())
 server.use(cors())
+server.use(express.json());
 
 // server router setup
 server.use('/api/user', userRouter)
