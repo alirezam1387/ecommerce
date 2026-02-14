@@ -21,7 +21,6 @@ const register = AsyncHandler(async (req, res, next) => {
 })
 
 const login = AsyncHandler(async (req, res, next) => {
-  console.log(req)
   const { email, password } = req.body
 
   if (!email || !password) next(new ErrorHandler('email or password ', 400))
@@ -107,10 +106,23 @@ const forgotPassCheck = AsyncHandler(async (req, res, next) => {
 })
 
 const getMe = AsyncHandler(async (req, res, next) => {
-    res.status(200).json({
-      success: true,
-      data: req.user
-    })
+  res.status(200).json({
+    success: true,
+    data: req.user
+  })
+})
+
+const editInfo = AsyncHandler(async (req, res, next) => {
+  const { name, username, email, password, phoneNumber, address, postalCode } = req.body
+  const user = await UserModel.findByIdAndUpdate(req.user, { name, username, email, password, phoneNumber, address, postalCode }, {
+    runValidators: true,
+    new: true
+  }).select('-password -otp')
+
+  res.status(200).json({
+    success: true,
+    user
+  })
 })
 
 module.exports = {
@@ -120,5 +132,6 @@ module.exports = {
   logout,
   forgotPassSendMail,
   forgotPassCheck,
-  getMe
+  getMe,
+  editInfo
 }
