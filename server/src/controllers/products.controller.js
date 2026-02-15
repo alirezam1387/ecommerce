@@ -7,7 +7,7 @@ exports.addProduct = AsyncHandler(async (req, res, next) => {
   try {
     const { title, description, price, count, colors, size, OffNum } = req.body
 
-    const links = req.body.link ? JSON.parse(req.body.links) : {}
+    const links = JSON.parse(req.body.links)
 
     if (!title || !description || !price) {
       return res.status(400).json({
