@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+ // delete 
+ const fs = require('fs').promises
+ const path = require('path')
 
 const productSchema = new mongoose.Schema({
   title: {
@@ -66,6 +69,23 @@ const productSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+})
+
+productSchema.pre('deleteOne', { query: false, document: true }, async function (next) {
+  const deletedItems = []
+
+  if (this.mainPhoto) {
+    deletedItems.push(this.mainPhoto)
+  }
+
+  if (this.gallery && Array.isArray(this.gallery)) {
+    deletedItems.push(...this.gallery)
+  }
+
+  for (const filePath of deletedItems) {
+    const fullPath = path.join(__dirname,'..','..' , filePath)
+    await fs.unlink(fullPath)
+  }
 })
 
 const Product = mongoose.model('Product', productSchema)

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { addProduct } = require('../controllers/products.controller.js')
+const { addProduct, getProduct, editProduct, deleteProduct } = require('../controllers/products.controller.js')
 const { AdminRole } = require('../middlewere/PrivateRoutes')
 const upload = require('../middlewere/UploadHandler')
 
@@ -13,5 +13,13 @@ router.post(
   ]),
   addProduct,
 )
+
+router.route('/:id')
+  .get(getProduct)
+  .put(upload.fields([
+    { name: 'mainPhoto', maxCount: 1 },
+    { name: 'gallery', maxCount: 12 },
+  ]), editProduct)
+  .delete(deleteProduct)
 
 module.exports = router
