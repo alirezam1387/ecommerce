@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
   title: {
@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
   },
   mainPhoto: {
     type: String,
-    default: "no-photo.jpg",
+    default: 'no-photo.jpg',
     required: true,
   },
   gallery: [
@@ -58,16 +58,16 @@ const productSchema = new mongoose.Schema({
     default: 0,
   },
   links: {
-    instagram: { type: String, default: "" },
-    telegram: { type: String, default: "" },
-    whatsapp: { type: String, default: "" },
+    instagram: { type: String, default: '' },
+    telegram: { type: String, default: '' },
+    whatsapp: { type: String, default: '' },
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-});
+})
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model('Product', productSchema)
 
-module.exports = Product;
+module.exports = Product
