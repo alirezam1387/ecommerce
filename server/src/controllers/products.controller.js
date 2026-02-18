@@ -1,8 +1,7 @@
 const AsyncHandler = require('../utils/asyncHandller')
 const Product = require('../models/product.model')
 const ErrorHandler = require('../middlewere/ErrorHandler')
-const aqp = require('api-query-params').default;
-
+const aqp = require('api-query-params').default
 
 exports.addProduct = AsyncHandler(async (req, res, next) => {
   try {
@@ -25,7 +24,6 @@ exports.addProduct = AsyncHandler(async (req, res, next) => {
       ? req.files.gallery.map((file) => file.path)
       : []
 
-    console.log(req.files)
     const product = new Product({
       title,
       description,
@@ -68,7 +66,7 @@ exports.getProduct = AsyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    data
+    data,
   })
 })
 
@@ -81,20 +79,36 @@ exports.editProduct = AsyncHandler(async (req, res, next) => {
 
   const { title, description, price, count, colors, size, OffNum } = req.body
   const links = req.body.links && JSON.parse(req.body.links)
-  const mainPhoto = req.files?.mainPhoto ? req.files.mainPhoto[0].path : undefined
-  const gallery = req.files?.gallery ? req.files.gallery.map(file => file.pate) : undefined
+  const mainPhoto = req.files?.mainPhoto
+    ? req.files.mainPhoto[0].path
+    : undefined
+  const gallery = req.files?.gallery
+    ? req.files.gallery.map((file) => file.pate)
+    : undefined
 
-  const UpdateData = await Product.findByIdAndUpdate(productId,
-    { title, description, price, count, colors, size, OffNum, links, mainPhoto, gallery },
+  const UpdateData = await Product.findByIdAndUpdate(
+    productId,
+    {
+      title,
+      description,
+      price,
+      count,
+      colors,
+      size,
+      OffNum,
+      links,
+      mainPhoto,
+      gallery,
+    },
     {
       new: true,
-      runValidators: true
-    }
+      runValidators: true,
+    },
   )
 
   res.status(200).json({
     success: true,
-    data: UpdateData
+    data: UpdateData,
   })
 })
 
@@ -109,7 +123,7 @@ exports.deleteProduct = AsyncHandler(async (req, res, next) => {
 })
 
 exports.getAllProducts = AsyncHandler(async (req, res, next) => {
-  let query;
+  let query
   let queryObj = { ...req.query }
   delete queryObj['page']
   delete queryObj['limit']
@@ -118,7 +132,7 @@ exports.getAllProducts = AsyncHandler(async (req, res, next) => {
   // filter
   query = Product.find(filter).select('-gallery -colors -size -links')
 
-  // sort 
+  // sort
   if (sort) {
     query.sort(sort)
   } else {
@@ -144,31 +158,32 @@ exports.getAllProducts = AsyncHandler(async (req, res, next) => {
   pagination = {
     currentPage,
     totalPages,
-    limit
+    limit,
   }
 
   if (totalItems > endIndex) {
     pagination.next = {
       page: currentPage + 1,
-      limit
+      limit,
     }
   }
 
   if (startIndex > 0) {
     pagination.prev = {
-      page:  currentPage - 1,
-      limit
+      page: currentPage - 1,
+      limit,
     }
   }
 
   query.skip(startIndex).limit(limit)
 
-  const data = await query;
+  const data = await query
   if (data.length < 1) return next(new ErrorHandler('no data founded', 404))
 
   res.status(200).json({
     success: true,
     pagination,
-    data
+    data,
   })
 })
+
