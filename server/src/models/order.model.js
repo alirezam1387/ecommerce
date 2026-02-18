@@ -16,12 +16,12 @@ const orderSchema = new mongoose.Schema({
     enum: ["PENDING", "DELIVERED", "CANCELLED", "INWAY"],
     default: "PENDING",
   },
-  items: {
-    type: Array,
+  items: [{
+    type: Number,
     required: true
-  },
+  }],
   postStatus: {
-    type: Number, 
+    type: Number,
     defualt: 0
   },
   createdAt: {

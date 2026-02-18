@@ -3,6 +3,7 @@ const Order = require("../models/order.model");
 const AsyncHandler = require("../utils/asyncHandller");
 
 exports.CreateOrder = AsyncHandler(async (req, res, next) => {
+    console.log(req.body)
     const { address, items } = req.body
     const userRef = req.user._id
 
