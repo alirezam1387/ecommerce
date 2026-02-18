@@ -16,9 +16,13 @@ const orderSchema = new mongoose.Schema({
     enum: ["PENDING", "DELIVERED", "CANCELLED", "INWAY"],
     default: "PENDING",
   },
-  takeBack: {
-    type: Boolean,
-    default: false,
+  items: {
+    type: Array,
+    required: true
+  },
+  postStatus: {
+    type: Number, 
+    defualt: 0
   },
   createdAt: {
     type: Date,

@@ -29,7 +29,6 @@ exports.AdminRole = async (req, res, next) => {
       return next(
         new ErrorHandler('user is not authenticated as an admin', 403),
       )
-    req.user = user
     next()
   } catch (err) {
     next(err)

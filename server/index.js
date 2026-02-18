@@ -1,10 +1,12 @@
 const express = require('express')
 const cors = require('cors')
-const userRouter = require('./src/router/user.routes')
 const MongoDBConnect = require('./src/database/MongoDB')
 const ErrorMidlleWere = require('./src/utils/error')
 const cookieParser = require('cookie-parser')
+
+const userRouter = require('./src/router/user.routes')
 const productRouter = require('./src/router/product.routes')
+const orderRouter = require('./src/router/order.routes')
 
 // const multer = require('multer');
 // const path = require('path');
@@ -25,6 +27,7 @@ server.use(express.urlencoded({ extended: true, limit: '12mb' }))
 // server router setup
 server.use('/api/users', userRouter)
 server.use('/api/products', productRouter)
+server.use('/api/order', orderRouter)
 
 server.use(ErrorMidlleWere)
 

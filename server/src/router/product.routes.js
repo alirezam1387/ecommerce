@@ -8,11 +8,14 @@ const {
   deleteProduct,
   getAllProducts,
 } = require('../controllers/products.controller.js')
-const { AdminRole } = require('../middlewere/PrivateRoutes')
+
+const { AdminRole, isLogin } = require('../middlewere/PrivateRoutes')
+  
 const upload = require('../middlewere/UploadHandler')
 
 router.post(
   '/add',
+  isLogin,
   AdminRole,
   upload.fields([
     { name: 'mainPhoto', maxCount: 1 },
@@ -27,6 +30,7 @@ router
   .route('/:id')
   .get(getProduct)
   .put(
+    isLogin,
     AdminRole,
     upload.fields([
       { name: 'mainPhoto', maxCount: 1 },
@@ -34,6 +38,9 @@ router
     ]),
     editProduct,
   )
-  .delete(deleteProduct)
+  .delete(
+    isLogin,
+    AdminRole,
+    deleteProduct)
 
 module.exports = router
