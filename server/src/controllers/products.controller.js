@@ -1,13 +1,14 @@
 const AsyncHandler = require('../utils/asyncHandller')
 const Product = require('../models/product.model')
 const ErrorHandler = require('../middlewere/ErrorHandler')
+const aqp = require('api-query-params').default;
 
 
 exports.addProduct = AsyncHandler(async (req, res, next) => {
   try {
     const { title, description, price, count, colors, size, OffNum } = req.body
 
-    const links = JSON.parse(req.body.links)
+    const links = req.body.link ? JSON.parse(req.body.links) : {}
 
     if (!title || !description || !price) {
       return res.status(400).json({
@@ -105,4 +106,69 @@ exports.deleteProduct = AsyncHandler(async (req, res, next) => {
   }
   await data.deleteOne()
   res.status(204)
+})
+
+exports.getAllProducts = AsyncHandler(async (req, res, next) => {
+  let query;
+  let queryObj = { ...req.query }
+  delete queryObj['page']
+  delete queryObj['limit']
+  const { filter, sort, projection } = aqp(queryObj)
+
+  // filter
+  query = Product.find(filter).select('-gallery -colors -size -links')
+
+  // sort 
+  if (sort) {
+    query.sort(sort)
+  } else {
+    query.sort('createdAt')
+  }
+
+  // select
+  if (projection) {
+    query.select(projection)
+  }
+
+  // pagination
+  let pagination = {}
+
+  const currentPage = parseInt(req.query.page) || 1
+  const limit = parseInt(req.query.limit) || 20
+  const startIndex = (currentPage - 1) * limit
+  const endIndex = currentPage * limit
+
+  const totalItems = await Product.countDocuments(filter)
+  const totalPages = Math.ceil(totalItems / limit)
+
+  pagination = {
+    currentPage,
+    totalPages,
+    limit
+  }
+
+  if (totalItems > endIndex) {
+    pagination.next = {
+      page: currentPage + 1,
+      limit
+    }
+  }
+
+  if (startIndex > 0) {
+    pagination.prev = {
+      page:  currentPage - 1,
+      limit
+    }
+  }
+
+  query.skip(startIndex).limit(limit)
+
+  const data = await query;
+  if (data.length < 1) return next(new ErrorHandler('no data founded', 404))
+
+  res.status(200).json({
+    success: true,
+    pagination,
+    data
+  })
 })
