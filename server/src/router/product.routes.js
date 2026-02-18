@@ -12,8 +12,8 @@ const { AdminRole } = require('../middlewere/PrivateRoutes')
 const upload = require('../middlewere/UploadHandler')
 
 router.post(
-  AdminRole,
   '/add',
+  AdminRole,
   upload.fields([
     { name: 'mainPhoto', maxCount: 1 },
     { name: 'gallery', maxCount: 12 },
@@ -27,6 +27,7 @@ router
   .route('/:id')
   .get(getProduct)
   .put(
+    AdminRole,
     upload.fields([
       { name: 'mainPhoto', maxCount: 1 },
       { name: 'gallery', maxCount: 12 },
